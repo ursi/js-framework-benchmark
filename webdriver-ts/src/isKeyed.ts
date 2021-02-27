@@ -15,6 +15,8 @@ let args = yargs(process.argv)
     .boolean('headless')
     .array("framework").argv;
 
+args.chromeBinary = "/nix/store/cnkwcmy97jbxhqd2n0isiishss9c429s-google-chrome-88.0.4324.182/bin/google-chrome-stable";
+
 let allArgs = args._.length<=2 ? [] : args._.slice(2,args._.length);
 
 console.log("args.framework", args.framework, !args.framework);

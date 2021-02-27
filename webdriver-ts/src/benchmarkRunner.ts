@@ -180,6 +180,8 @@ let args = yargs(process.argv)
     .array("framework").array("benchmark")
     .argv;
 
+args.chromeBinary = "/nix/store/cnkwcmy97jbxhqd2n0isiishss9c429s-google-chrome-88.0.4324.182/bin/google-chrome-stable";
+
 console.log("args", args);
 
 let allArgs = args._.length<=2 ? [] : args._.slice(2,args._.length);
