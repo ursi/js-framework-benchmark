@@ -14,6 +14,7 @@
                   [ chromedriver
                     google-chrome
                     jre8
+                    nodePackages.node2nix
                     nodejs
                   ];
 
