@@ -1,5 +1,18 @@
-{ outputs =
-    { self, nixpkgs, utils }:
+{
+# inputs =
+#     { shpaboinchkle =
+#         { url = "gitlab:fresheyeball/shpaboinchkle/mostly-miso";
+#           flake = false;
+#         };
+
+#       shpadoinkle =
+#         { url = "gitlab:fresheyeball/Shapadoinkle/hell-scape";
+#           flake = false;
+#         };
+#     };
+
+  outputs =
+    { self, nixpkgs, utils}:# , shpaboinchkle, shpadoinkle }:
       let
         system = "x86_64-linux";
 
@@ -14,8 +27,8 @@
                   [ chromedriver
                     google-chrome
                     jre8
-                    nodePackages.node2nix
                     nodejs
+                    nodePackages.node2nix
                   ];
 
                 shellHook =
