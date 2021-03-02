@@ -36,8 +36,9 @@
                   echo 'after running `npm install` inside `webdriver-ts`, run `patch-chromedriver` from the same directory'
 
                   patch-chromedriver () {
-                    ln -fs $(which chromedriver) node_modules/chromedriver/lib/chromedriver
-                    echo '`chromedriver` patched successfully. You can now run `npm run bench ...`'
+                    mkdir node_modules/chromedriver/lib/chromedriver \
+                    && ln -fs $(which chromedriver) node_modules/chromedriver/lib/chromedriver \
+                    && echo '`chromedriver` patched successfully. You can now run `npm run bench ...`'
                   }
                   '';
               };
