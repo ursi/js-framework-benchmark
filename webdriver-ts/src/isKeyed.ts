@@ -4,6 +4,7 @@ import {config, FrameworkData, initializeFrameworks, BenchmarkOptions} from './c
 import { WebDriver, By, WebElement } from 'selenium-webdriver';
 import * as R from 'ramda';
 import { valid } from 'semver';
+import getChromeBinary from './chromeBinary'
 
 
 let args = yargs(process.argv)
@@ -15,7 +16,7 @@ let args = yargs(process.argv)
     .boolean('headless')
     .array("framework").argv;
 
-args.chromeBinary = "/nix/store/cnkwcmy97jbxhqd2n0isiishss9c429s-google-chrome-88.0.4324.182/bin/google-chrome-stable";
+args.chromeBinary = getChromeBinary();
 
 let allArgs = args._.length<=2 ? [] : args._.slice(2,args._.length);
 
