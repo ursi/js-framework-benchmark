@@ -15,6 +15,25 @@
         "type": "github"
       }
     },
+    "js-framework-benchmark": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "utils": "utils"
+      },
+      "locked": {
+        "lastModified": 1614731180,
+        "narHash": "sha256-inABlxvmD/bFHOiNFLbl5mfSiSgxx0lUFeBHPfV5zS8=",
+        "owner": "ursi",
+        "repo": "js-framework-benchmark",
+        "rev": "568522046132d04adb26b74a69acd05db6922402",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ursi",
+        "repo": "js-framework-benchmark",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1614288967,
@@ -43,10 +62,24 @@
         "type": "indirect"
       }
     },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1614288967,
+        "narHash": "sha256-6Q2gH8lMzF6wMO9//2nE7v/9U2LXR2h/wDLuGpfQJ4M=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "04ac9dcd311956d1756d77f4baf9258392ee7bdd",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs",
-        "utils": "utils"
+        "js-framework-benchmark": "js-framework-benchmark",
+        "nixpkgs": "nixpkgs_3"
       }
     },
     "utils": {
