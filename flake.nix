@@ -12,20 +12,35 @@
 
         inherit (nixpkgs) lib;
 
-        # use an absolute path from the js-framework-benchmarks dir
-        getNodeModules = path:
-          # the flake is used instead of the local directory so local changes don't make it have to rebuild
-          (import (js-framework-benchmark + path) { inherit pkgs system; }).shell.nodeDependencies
-            + /lib/node_modules;
-
         nodeModules =
-          lib.mapAttrs
-            (_: path: getNodeModules path)
-            { main = /.;
-              webdriver = /webdriver-ts;
-              webdriverResults = /webdriver-ts-results;
-            };
+          let
+            # use an absolute path from the 'js-framework-benchmark' dir
+            getNodeModules = path:
+              # the flake is used instead of the local directory so local changes don't require a full rebuild
+              (import (js-framework-benchmark + path) { inherit pkgs system; }).shell.nodeDependencies
+                + /lib/node_modules;
 
+            unpatched =
+              lib.mapAttrs
+                (_: path: getNodeModules path)
+                { main = /.;
+                  webdriver = /webdriver-ts;
+                  webdriverResults = /webdriver-ts-results;
+                };
+          in
+            unpatched
+              // { webdriver = with pkgs;
+                    runCommand "node_modules" {}
+                      ''
+                      mkdir $out
+                      cd $out
+                      cp -r ${unpatched.webdriver}/. .
+                      chmod -R +w .
+                      cd chromedriver/lib
+                      mkdir chromedriver
+                      ln -s ${chromedriver}/bin/chromedriver chromedriver
+                      '';
+                 };
       in with pkgs;
         { devShell.${system} =
             mkShell
@@ -54,12 +69,11 @@
 
                     (
                       cd webdriver-ts
-                      rm -fr node_modules && cp -r ${nodeModules.webdriver} node_modules
+                      rm -fr node_modules
+                      # for some reason the typescript won't compile if it's a symlink
+                      cp -r ${nodeModules.webdriver} node_modules
                       chmod -R +w node_modules
                       npm run build-prod
-                      cd node_modules/chromedriver/lib
-                      mkdir chromedriver
-                      ln -s ${chromedriver}/bin/chromedriver chromedriver
                     )
 
                     (
