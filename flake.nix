@@ -45,9 +45,7 @@
         { devShell.${system} =
             mkShell
               { buildInputs =
-                  [ chromedriver
-                    google-chrome
-                    jre8
+                  [ google-chrome
                     nodejs
                     nodePackages.node2nix
                   ];
