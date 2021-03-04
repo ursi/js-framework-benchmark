@@ -102,6 +102,7 @@
                       # for some reason the typescript won't compile if it's a symlink
                       cp -r ${nodeModules.webdriver} node_modules
                       chmod -R +w node_modules
+                      # TODO: make this a derivation so it doesn't have to be run each time
                       npm run build-prod
                     )
 
