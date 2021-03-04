@@ -88,7 +88,7 @@
                         ''
                         run 'npm start' to start the server required to run the benchmakrs and view the results
 
-                        Commands:
+                        Commands (run from repo root):
                           bench ([non-]keyed/<framework>)+     benchmark the given framework(s)
                           results                              build the results table
                       '';
