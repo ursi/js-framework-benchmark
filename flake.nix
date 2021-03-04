@@ -41,6 +41,37 @@
                       ln -s ${chromedriver}/bin/chromedriver chromedriver
                       '';
                  };
+
+        benchmarks = import ./benchmarks.nix;
+
+        builtBenchmarks =
+          lib.mapAttrs
+            (_: value:
+              import value.benchmark
+                { isJS = true;
+                  shpadoinkle = value.shpadoinkle;
+                }
+            )
+            benchmarks;
+
+        addBenchmarks =
+          lib.concatStrings
+            (lib.mapAttrsToList
+              (key: value:
+                ''
+                (
+                  cd frameworks/non-keyed
+                  mkdir -p ${key}/js 2> /dev/null
+                  cd ${key}
+                  cp ${benchmarks.${key}.benchmark}/package.json .
+                  cp ${benchmarks.${key}.benchmark}/js/index.html js
+                  cp ${value}/bin/shpaboinchkle.jsexe/all.min.js js
+                  chmod -R +w .
+                )
+                ''
+              )
+              builtBenchmarks
+            );
       in with pkgs;
         { devShell.${system} =
             mkShell
@@ -78,6 +109,8 @@
                       cd webdriver-ts-results
                       rm -fr node_modules && ln -s ${nodeModules.webdriverResults} node_modules
                     )
+
+                    ${addBenchmarks}
 
                     echo ${help}
                     alias node2nix="node2nix -d -l package-lock.json"
