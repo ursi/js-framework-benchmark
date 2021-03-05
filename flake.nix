@@ -1,4 +1,7 @@
-{ inputs.js-framework-benchmark.url = "github:ursi/js-framework-benchmark";
+{ inputs.js-framework-benchmark =
+  { url = "github:ursi/js-framework-benchmark";
+    flake = false;
+  };
 
   outputs =
     { self, nixpkgs, js-framework-benchmark }:
