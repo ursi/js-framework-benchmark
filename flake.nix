@@ -72,6 +72,17 @@
               )
               builtBenchmarks
             );
+
+        webdriverTS = with pkgs;
+          runCommand "typescript"
+            { buildInputs = [ nodePackages.typescript ]; }
+            ''
+            mkdir $out
+            cp -r ${js-framework-benchmark}/webdriver-ts/src .
+            cp ${js-framework-benchmark}/webdriver-ts/tsconfig.json .
+            cp -r ${nodeModules.webdriver} node_modules
+            tsc --outDir $out
+            '';
       in with pkgs;
         { devShell.${system} =
             mkShell
@@ -99,11 +110,11 @@
                     (
                       cd webdriver-ts
                       rm -fr node_modules
-                      # for some reason the typescript won't compile if it's a symlink
                       cp -r ${nodeModules.webdriver} node_modules
                       chmod -R +w node_modules
-                      # TODO: make this a derivation so it doesn't have to be run each time
-                      npm run build-prod
+                      rm -fr dist
+                      cp -r ${webdriverTS} dist
+                      chmod -R +w dist
                     )
 
                     (
