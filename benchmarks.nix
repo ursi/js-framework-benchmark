@@ -7,8 +7,7 @@ let
   benchmark =
     builtins.fetchGit
       { url = urls.benchmark;
-        # this branch fixes a nix syntax error
-        ref = "syntax";
+        ref = "master";
       };
 in
   /* Each attribute added to this set is a different benchmark that will be built
