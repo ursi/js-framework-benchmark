@@ -14,6 +14,8 @@ in
      in the directory 'frameworks/non-keyed/<attribute>'
 
      each benchmark needs a 'shpadoinkle' attribute and a 'benchmark' attribute
+
+     NOTE: To use a local repository, an absolute path must be used.
   */
   { shpadoinkle =
       { shpadoinkle =
