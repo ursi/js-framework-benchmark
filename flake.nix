@@ -15,7 +15,7 @@
 
         inherit (nixpkgs) lib;
 
-        nodeModules =
+        node-modules =
           let
             # use an absolute path from the 'js-framework-benchmark' dir
             getNodeModules = path:
@@ -28,7 +28,7 @@
                 (_: path: getNodeModules path)
                 { main = /.;
                   webdriver = /webdriver-ts;
-                  webdriverResults = /webdriver-ts-results;
+                  webdriver-results = /webdriver-ts-results;
                 };
           in
             unpatched
@@ -47,7 +47,7 @@
 
         benchmarks = import ./benchmarks.nix;
 
-        builtBenchmarks =
+        built-benchmarks =
           lib.mapAttrs
             (_: value:
               import value.benchmark
@@ -57,7 +57,7 @@
             )
             benchmarks;
 
-        addBenchmarks =
+        add-benchmarks =
           lib.concatStrings
             (lib.mapAttrsToList
               (key: value:
@@ -79,17 +79,17 @@
                   )
                   ''
               )
-              builtBenchmarks
+              built-benchmarks
             );
 
-        webdriverTS = with pkgs;
+        webdriver-ts = with pkgs;
           runCommand "typescript"
             { buildInputs = [ nodePackages.typescript ]; }
             ''
             mkdir $out
             cp -r ${js-framework-benchmark}/webdriver-ts/src .
             cp ${js-framework-benchmark}/webdriver-ts/tsconfig.json .
-            cp -r ${nodeModules.webdriver} node_modules
+            cp -r ${node-modules.webdriver} node_modules
             tsc --outDir $out
             '';
       in with pkgs;
@@ -114,24 +114,24 @@
                       '';
                   in
                     ''
-                    rm -fr node_modules && ln -s ${nodeModules.main} node_modules
+                    rm -fr node_modules && ln -s ${node-modules.main} node_modules
 
                     (
                       cd webdriver-ts
                       rm -fr node_modules
-                      cp -r ${nodeModules.webdriver} node_modules
+                      cp -r ${node-modules.webdriver} node_modules
                       chmod -R +w node_modules
                       rm -fr dist
-                      cp -r ${webdriverTS} dist
+                      cp -r ${webdriver-ts} dist
                       chmod -R +w dist
                     )
 
                     (
                       cd webdriver-ts-results
-                      rm -fr node_modules && ln -s ${nodeModules.webdriverResults} node_modules
+                      rm -fr node_modules && ln -s ${node-modules.webdriver-results} node_modules
                     )
 
-                    ${addBenchmarks}
+                    ${add-benchmarks}
 
                     echo ${help}
                     alias node2nix="node2nix -d -l package-lock.json"
