@@ -3,11 +3,11 @@
     "js-framework-benchmark": {
       "flake": false,
       "locked": {
-        "lastModified": 1614889173,
-        "narHash": "sha256-yfVJXed87xphsiYssBUDVpq1Sl5D8hwlLpOOlj0TBl0=",
+        "lastModified": 1615264351,
+        "narHash": "sha256-/fjmggB+NQglxJnozTQ/9XlX/B83NIZ0GEE6OTAPeoE=",
         "owner": "ursi",
         "repo": "js-framework-benchmark",
-        "rev": "51a52979b6f506c75bd8135904cb28a901ac2b37",
+        "rev": "f3f6b7256cffdbe1f963a903e982219cd0118e58",
         "type": "github"
       },
       "original": {
