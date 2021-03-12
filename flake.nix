@@ -61,17 +61,23 @@
           lib.concatStrings
             (lib.mapAttrsToList
               (key: value:
-                ''
-                (
-                  cd frameworks/non-keyed
-                  mkdir -p ${key}/js 2> /dev/null
-                  cd ${key}
-                  cp ${benchmarks.${key}.benchmark}/package.json .
-                  cp ${benchmarks.${key}.benchmark}/js/index.html js
-                  cp ${value}/bin/shpaboinchkle.jsexe/all.min.js js
-                  chmod -R +w .
-                )
-                ''
+                let
+                  bm = pkgs.runCommand key {}
+                    ''
+                    mkdir -p $out/js
+                    cd $out
+                    cp ${benchmarks.${key}.benchmark}/package.json .
+                    cp ${benchmarks.${key}.benchmark}/js/index.html js
+                    cp ${value}/bin/shpaboinchkle.jsexe/all.min.js js
+                    '';
+                in
+                  ''
+                  (
+                    cd frameworks/non-keyed
+                    rm -fr ${key}
+                    ln -s ${bm} ${key}
+                  )
+                  ''
               )
               builtBenchmarks
             );
