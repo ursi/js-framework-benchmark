@@ -21,9 +21,15 @@ in
       { shpadoinkle =
           builtins.fetchGit
             { url = urls.shpadoinkle;
-              ref = "master";
+              rev = "3ed944f3be804098d1d1b51fe254747b41cbc329";
             };
 
-        inherit benchmark;
+        # this is running ParDiff
+        benchmark =
+          builtins.fetchGit
+            { url = urls.benchmark;
+              ref = "nix-refactor";
+              rev = "3eaead58120e35eeff9e9c8c5e4c506d01bdfb66";
+            };
       };
   }
