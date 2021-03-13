@@ -1,6 +1,28 @@
 # Shpadoinkle
 
-Add your Shpadoinkle benchmarks to `benchmarks.nix` then run `nix-shell` (or `nix develop --impure` to use the flake). Instructions will be printed to the terminal.
+Add your Shpadoinkle benchmarks to `benchmarks.nix`.
+
+### Running benchmarks manually
+
+Run `nix-shell`. Instructions will be printed to the terminal.
+
+### Building benchmarks with Nix
+
+Run `nix-build`, optionally with the following arguments
+
+- `other-benchmarks ? []`: An array of the names of other non-keyed benchmarks\
+  Currently supported:
+  - miso
+  - react
+  - vanillajs
+
+- `count ? null`: roughly the number of times to run each benchmark
+
+- `benchmark ? null`: a space separated list of benchmarks to run. EX: `"01 03"`
+
+You can see a more detailed look at `count` and `benchmark`, as well as other potential arguments that could be added [here](https://github.com/ursi/js-framework-benchmark/blob/master/webdriver-ts/src/benchmarkRunner.ts#L163).
+
+The result of `nix-build` will be an HTML file with the benchmark results.
 
 # js-framework-benchmark
 
