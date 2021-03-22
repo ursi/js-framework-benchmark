@@ -216,7 +216,7 @@ in with pkgs;
 
               bench () (
                 cd webdriver-ts
-                npm run bench $@
+                npm run bench -- $@
               )
 
               results () (
