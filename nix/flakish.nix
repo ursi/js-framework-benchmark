@@ -64,7 +64,7 @@ let
             ''
             (
               cd frameworks/non-keyed
-              rm -fr ${key}
+              \rm -fr ${key}
               ln -s ${bm} ${key}
             )
             ''
@@ -199,10 +199,10 @@ in with pkgs;
                 '';
             in
               ''
-              rm -fr node_modules
-              rm -fr webdriver-ts/dist
-              rm -fr webdriver-ts/node_modules
-              rm -fr webdriver-ts-results/node_modules
+              \rm -fr node_modules
+              \rm -fr webdriver-ts/dist
+              \rm -fr webdriver-ts/node_modules
+              \rm -fr webdriver-ts-results/node_modules
 
               ${setup}
 
