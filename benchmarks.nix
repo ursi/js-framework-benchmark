@@ -21,15 +21,13 @@ in
       { shpadoinkle =
           builtins.fetchGit
             { url = urls.shpadoinkle;
-              rev = "3ed944f3be804098d1d1b51fe254747b41cbc329";
+              rev = "6139267ece9bdbfab437342cdad588061f3a3694";
             };
 
-        # this is running ParDiff
         benchmark =
           builtins.fetchGit
             { url = urls.benchmark;
-              ref = "nix-refactor";
-              rev = "3eaead58120e35eeff9e9c8c5e4c506d01bdfb66";
+              rev = "97b4aab4ec129dcbef2ebd36a1cf6f0a20998751";
             };
       };
   }
