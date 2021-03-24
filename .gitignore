@@ -77,3 +77,11 @@ Cargo.lock
 
 # emacs
 *~
+
+# results
+webdriver-ts-results/src/results.ts
+webdriver-ts/results.json
+
+webdriver-ts-results/BoxPlotTable.*.js
+webdriver-ts-results/table.html
+table.html
