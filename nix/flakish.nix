@@ -213,12 +213,12 @@ in with pkgs;
               alias node2nix="node2nix -d -l package-lock.json"
               alias build="nix build -L --impure"
 
-              bench () (
+              bench() (
                 cd webdriver-ts
                 npm run bench -- $@
               )
 
-              results () (
+              results() (
                 cd webdriver-ts
                 npm run results
                 echo -e "\nview table: http://localhost:8080/webdriver-ts-results/table.html"
