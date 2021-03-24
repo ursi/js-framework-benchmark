@@ -93,10 +93,7 @@ let
       cp -r ${webdriver-ts} dist
     )
 
-    (
-      cd webdriver-ts-results
-      ln -s ${node-modules.webdriver-results} node_modules
-    )
+    ln -s ${node-modules.webdriver-results} webdriver-ts-results/node_modules
 
     ${add-benchmarks}
     '';
