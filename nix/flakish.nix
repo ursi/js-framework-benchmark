@@ -109,10 +109,8 @@ in with pkgs;
       , benchmark ? null
       }:
         let
-          # run-benchmark = bm: "npm run bench -- non-keyed/${bm} || true";
           count-str = if count != null then "--count ${toString(count)}" else "";
           benchmark-str = if benchmark != null then "--benchmark ${benchmark}" else "";
-
           run-benchmark = bm: "npm run bench -- non-keyed/${bm} ${count-str} ${benchmark-str} || true;";
 
           run-benchmarks =
