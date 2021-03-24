@@ -99,7 +99,7 @@ let
     '';
 in with pkgs;
   { defaultPackage =
-      { # array of names of other non-keyed benchmarks. currently supported: react, miso
+      { # array of names of other non-keyed benchmarks. check README for supported frameworks.
         other-benchmarks ? []
 
         # roughly the number of times to run each benchmark
