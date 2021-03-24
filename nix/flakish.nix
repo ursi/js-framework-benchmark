@@ -9,7 +9,7 @@ let
     let
       # use an absolute path from the 'js-framework-benchmark' dir
       getNodeModules = path:
-        (import (js-framework-benchmark + path) { inherit pkgs; }).shell.nodeDependencies
+        (import (js-framework-benchmark + path) { inherit pkgs; }).nodeDependencies
           + /lib/node_modules;
 
       unpatched =
