@@ -218,12 +218,6 @@ in with pkgs;
                 npm run bench -- $@
               )
 
-              results() (
-                cd webdriver-ts
-                npm run results
-                echo -e "\nview table: http://localhost:8080/webdriver-ts-results/table.html"
-              )
-
               remove-results() {
                 \rm -fr webdriver-ts-results/src/results.ts
                 \rm -fr webdriver-ts/results.json
@@ -231,6 +225,12 @@ in with pkgs;
                 \rm -fr webdriver-ts-results/table.html
                 \rm -fr table.html
               }
+
+              results() (
+                cd webdriver-ts
+                npm run results
+                echo -e "\nview table: http://localhost:8080/webdriver-ts-results/table.html"
+              )
               '';
         };
   }
