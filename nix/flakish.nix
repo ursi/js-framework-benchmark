@@ -63,7 +63,7 @@ let
             ''
             (
               cd frameworks/non-keyed
-              \rm -fr ${key}
+              rm -fr ${key}
               ln -s ${bm} ${key}
             )
             ''
@@ -195,10 +195,11 @@ in with pkgs;
                   '';
             in
               ''
-              \rm -fr node_modules
-              \rm -fr webdriver-ts/dist
-              \rm -fr webdriver-ts/node_modules
-              \rm -fr webdriver-ts-results/node_modules
+              shopt -u expand_aliases
+              rm -fr node_modules
+              rm -fr webdriver-ts/dist
+              rm -fr webdriver-ts/node_modules
+              rm -fr webdriver-ts-results/node_modules
 
               ${setup}
 
@@ -216,11 +217,11 @@ in with pkgs;
               )
 
               remove-results() {
-                \rm -fr webdriver-ts-results/src/results.ts
-                \rm -fr webdriver-ts/results.json
-                \rm -fr webdriver-ts-results/BoxPlotTable.*.js
-                \rm -fr webdriver-ts-results/table.html
-                \rm -fr table.html
+                rm -fr webdriver-ts-results/src/results.ts
+                rm -fr webdriver-ts/results.json
+                rm -fr webdriver-ts-results/BoxPlotTable.*.js
+                rm -fr webdriver-ts-results/table.html
+                rm -fr table.html
               }
 
               results() (
@@ -228,6 +229,8 @@ in with pkgs;
                 npm run results
                 echo -e "\nview table: http://localhost:8080/webdriver-ts-results/table.html"
               )
+
+              shopt -s expand_aliases
               '';
         };
   }
