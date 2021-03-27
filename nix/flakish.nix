@@ -1,15 +1,14 @@
 let
-  inherit (import ./inputs.nix) js-framework-benchmark nixpkgs;
-
-  pkgs = import nixpkgs { config = { allowUnfree = true; }; };
-
+  inherit (import ./inputs.nix) gitignoreSrc nixpkgs;
+  inherit (import gitignoreSrc { inherit lib; }) gitignoreSource;
   inherit (pkgs) lib;
+  pkgs = import nixpkgs { config = { allowUnfree = true; }; };
 
   node-modules =
     let
       # use an absolute path from the 'js-framework-benchmark' dir
       getNodeModules = path:
-        (import (js-framework-benchmark + path) { inherit pkgs; }).nodeDependencies
+        (import (../. + path) { inherit pkgs; }).nodeDependencies
           + /lib/node_modules;
 
       unpatched =
@@ -77,8 +76,8 @@ let
       { buildInputs = [ nodePackages.typescript ]; }
       ''
       mkdir $out
-      cp -r ${js-framework-benchmark}/webdriver-ts/src .
-      cp ${js-framework-benchmark}/webdriver-ts/tsconfig.json .
+      cp -r ${../webdriver-ts/src} src
+      cp ${../webdriver-ts/tsconfig.json} tsconfig.json
       cp -r ${node-modules.webdriver} node_modules
       tsc --outDir $out
       '';
@@ -123,7 +122,7 @@ in with pkgs;
         in
           stdenv.mkDerivation
             { name = "benchmark-table";
-              src = js-framework-benchmark;
+              src = gitignoreSource ../.;
 
               FONTCONFIG_FILE =
                 makeFontsConf
