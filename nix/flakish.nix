@@ -9,7 +9,7 @@ let
       # use an absolute path from the 'js-framework-benchmark' dir
       getNodeModules = path:
         (import (../. + path) { inherit pkgs; }).nodeDependencies
-          + /lib/node_modules;
+        + /lib/node_modules;
 
       unpatched =
         lib.mapAttrs
@@ -20,18 +20,18 @@ let
           };
     in
       unpatched
-        // { webdriver = with pkgs;
-              runCommand "node_modules" {}
-                ''
-                mkdir $out
-                cd $out
-                cp -r ${unpatched.webdriver}/. .
-                chmod -R +w .
-                cd chromedriver/lib
-                mkdir chromedriver
-                ln -s ${chromedriver}/bin/chromedriver chromedriver
-                '';
-           };
+      // { webdriver = with pkgs;
+            runCommand "node_modules" {}
+              ''
+              mkdir $out
+              cd $out
+              cp -r ${unpatched.webdriver}/. .
+              chmod -R +w .
+              cd chromedriver/lib
+              mkdir chromedriver
+              ln -s ${chromedriver}/bin/chromedriver chromedriver
+              '';
+         };
 
   benchmarks = import ../benchmarks.nix;
 
@@ -118,7 +118,7 @@ in with pkgs;
                 (key: _: run-benchmark key)
                 benchmarks
               )
-              + lib.concatStrings (builtins.map run-benchmark other-benchmarks);
+            + lib.concatStrings (builtins.map run-benchmark other-benchmarks);
         in
           stdenv.mkDerivation
             { name = "benchmark-table";
