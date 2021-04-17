@@ -1,8 +1,9 @@
 let
+  b = builtins; l = lib; p = pkgs;
   inherit (import ./inputs.nix) gitignoreSrc nixpkgs;
   inherit (import gitignoreSrc { inherit lib; }) gitignoreSource;
-  inherit (pkgs) lib;
   pkgs = import nixpkgs { config = { allowUnfree = true; }; };
+  inherit (p) lib;
 
   node-modules =
     let
@@ -12,7 +13,7 @@ let
         + /lib/node_modules;
 
       unpatched =
-        lib.mapAttrs
+        l.mapAttrs
           (_: path: getNodeModules path)
           { main = /node.nix;
             webdriver = /webdriver-ts;
@@ -20,8 +21,8 @@ let
           };
     in
     unpatched
-    // { webdriver = with pkgs;
-           runCommand "node_modules" {}
+    // { webdriver =
+           p.runCommand "node_modules" {}
              ''
              mkdir $out
              cd $out
@@ -29,14 +30,14 @@ let
              chmod -R +w .
              cd chromedriver/lib
              mkdir chromedriver
-             ln -s ${chromedriver}/bin/chromedriver chromedriver
+             ln -s ${p.chromedriver}/bin/chromedriver chromedriver
              '';
        };
 
   benchmarks = import ../benchmarks.nix;
 
   built-benchmarks =
-    lib.mapAttrs
+    l.mapAttrs
       (_: value:
          import value.benchmark
            { isJS = true;
@@ -46,11 +47,11 @@ let
       benchmarks;
 
   add-benchmarks =
-    lib.concatStrings
-      (lib.mapAttrsToList
+    l.concatStrings
+      (l.mapAttrsToList
          (key: value:
             let
-              bm = pkgs.runCommand key {}
+              bm = p.runCommand key {}
                 ''
                 mkdir -p $out/js
                 cd $out
@@ -71,9 +72,9 @@ let
          built-benchmarks
       );
 
-  webdriver-ts = with pkgs;
-    runCommand "typescript"
-      { buildInputs = [ nodePackages.typescript ]; }
+  webdriver-ts =
+    p.runCommand "typescript"
+      { buildInputs = [ p.nodePackages.typescript ]; }
       ''
       mkdir $out
       cp -r ${../webdriver-ts/src} src
@@ -97,7 +98,6 @@ let
     ${add-benchmarks}
     '';
 in
-with pkgs;
 { defaultPackage =
     { # array of names of other non-keyed benchmarks. check README for supported frameworks.
       other-benchmarks ? []
@@ -114,24 +114,26 @@ with pkgs;
         run-benchmark = bm: "npm run bench -- non-keyed/${bm} ${count-str} ${benchmark-str} || true;";
 
         run-benchmarks =
-          lib.concatStrings
-            (lib.mapAttrsToList
+          l.concatStrings
+            (l.mapAttrsToList
                (key: _: run-benchmark key)
                benchmarks
             )
-          + lib.concatStrings (builtins.map run-benchmark other-benchmarks);
+          + l.concatStrings (b.map run-benchmark other-benchmarks);
       in
-      stdenv.mkDerivation
+      p.stdenv.mkDerivation
         { name = "benchmark-table";
           src = gitignoreSource ../.;
 
           FONTCONFIG_FILE =
+            with p;
             makeFontsConf
               { inherit fontconfig;
                 fontDirectories = [ "${corefonts}" ];
               };
 
           buildInputs =
+            with p;
             [ google-chrome
               nodejs
               socat
@@ -174,8 +176,9 @@ with pkgs;
         };
 
   devShell =
-    mkShell
+    p.mkShell
       { buildInputs =
+          with p;
           [ google-chrome
             nodejs
             nodePackages.node2nix
@@ -184,7 +187,7 @@ with pkgs;
         shellHook =
           let
             help =
-              lib.escapeShellArg
+              l.escapeShellArg
                 ''
 
                 run 'npm start' to start the server required to run the benchmakrs and view the results
