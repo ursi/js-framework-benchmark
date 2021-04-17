@@ -190,6 +190,7 @@ in
         functions.remove-results =
           ''
           rm -fr webdriver-ts-results/src/results.ts
+          rm -fr webdriver-ts/results
           rm -fr webdriver-ts/results.json
           rm -fr webdriver-ts-results/BoxPlotTable.*.js
           rm -fr webdriver-ts-results/table.html
