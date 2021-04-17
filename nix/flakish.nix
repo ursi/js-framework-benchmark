@@ -1,6 +1,6 @@
 let
   b = builtins; l = lib; p = pkgs;
-  inherit (import ./inputs.nix) gitignoreSource pkgs;
+  inherit (import ./inputs.nix) gitignoreSource make-shell pkgs;
   inherit (p) lib;
 
   node-modules =
@@ -174,15 +174,44 @@ in
         };
 
   devShell =
-    p.mkShell
-      { buildInputs =
+    make-shell
+      { packages =
           with p;
           [ google-chrome
             nodejs
             nodePackages.node2nix
           ];
 
-        shellHook =
+        aliases =
+          { build = "nix build -L --impure";
+            node2nix = "node2nix -d -l package-lock.json";
+          };
+
+        functions.remove-results =
+          ''
+          rm -fr webdriver-ts-results/src/results.ts
+          rm -fr webdriver-ts/results.json
+          rm -fr webdriver-ts-results/BoxPlotTable.*.js
+          rm -fr webdriver-ts-results/table.html
+          rm -fr table.html
+          '';
+
+        subshell-functions =
+          { bench =
+              ''
+              cd webdriver-ts
+              npm run bench -- $@
+              '';
+
+            results =
+              ''
+              cd webdriver-ts
+              npm run results
+              echo -e "\nview table: http://localhost:8080/webdriver-ts-results/table.html"
+              '';
+          };
+
+        setup =
           let
             help =
               l.escapeShellArg
@@ -197,7 +226,6 @@ in
                 '';
           in
           ''
-          shopt -u expand_aliases
           rm -fr node_modules
           rm -fr webdriver-ts/dist
           rm -fr webdriver-ts/node_modules
@@ -209,30 +237,6 @@ in
           chmod -R +w webdriver-ts/node_modules
 
           echo ${help}
-
-          alias node2nix="node2nix -d -l package-lock.json"
-          alias build="nix build -L --impure"
-
-          bench() (
-            cd webdriver-ts
-            npm run bench -- $@
-          )
-
-          remove-results() {
-            rm -fr webdriver-ts-results/src/results.ts
-            rm -fr webdriver-ts/results.json
-            rm -fr webdriver-ts-results/BoxPlotTable.*.js
-            rm -fr webdriver-ts-results/table.html
-            rm -fr table.html
-          }
-
-          results() (
-            cd webdriver-ts
-            npm run results
-            echo -e "\nview table: http://localhost:8080/webdriver-ts-results/table.html"
-          )
-
-          shopt -s expand_aliases
           '';
       };
 }
