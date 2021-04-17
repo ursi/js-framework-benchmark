@@ -1,8 +1,6 @@
 let
   b = builtins; l = lib; p = pkgs;
-  inherit (import ./inputs.nix) gitignoreSrc nixpkgs;
-  inherit (import gitignoreSrc { inherit lib; }) gitignoreSource;
-  pkgs = import nixpkgs { config = { allowUnfree = true; }; };
+  inherit (import ./inputs.nix) gitignoreSource pkgs;
   inherit (p) lib;
 
   node-modules =
