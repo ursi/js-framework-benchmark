@@ -21,7 +21,7 @@ in
       { shpadoinkle =
           builtins.fetchGit
             { url = urls.shpadoinkle;
-              rev = "6139267ece9bdbfab437342cdad588061f3a3694";
+              rev = "6107b832be2145738ca0d314546caca4c9114882";
             };
 
         inherit benchmark;
