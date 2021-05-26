@@ -15,7 +15,7 @@ in
 
      each benchmark needs a 'shpadoinkle' attribute and a 'benchmark' attribute
 
-     NOTE: To use a local repository, an absolute path must be used.
+     NOTE: To use a local repository, an absolute path must be used. (not sure if this is still true)
   */
   { shpadoinkle =
       { shpadoinkle =
