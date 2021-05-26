@@ -7,7 +7,7 @@ let
   benchmark =
     builtins.fetchGit
       { url = urls.benchmark;
-        ref = "master";
+        rev = "97b4aab4ec129dcbef2ebd36a1cf6f0a20998751";
       };
 in
   /* Each attribute added to this set is a different benchmark that will be built
@@ -24,10 +24,6 @@ in
               rev = "6139267ece9bdbfab437342cdad588061f3a3694";
             };
 
-        benchmark =
-          builtins.fetchGit
-            { url = urls.benchmark;
-              rev = "97b4aab4ec129dcbef2ebd36a1cf6f0a20998751";
-            };
+        inherit benchmark;
       };
   }
